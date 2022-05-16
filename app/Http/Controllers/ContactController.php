@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactRequest;
 use App\Models\Company;
 use App\Models\Contact;
 use Illuminate\Http\Request;
@@ -35,7 +36,9 @@ class ContactController extends Controller
      */
     public function create()
     {
-        //
+        $contact = new Contact();
+        $companyList = $this->companyService->getCompaniesDropDown();
+        return view('contact.create')->with('companies', $companyList)->with('contact', $contact);
     }
 
     /**
@@ -44,9 +47,12 @@ class ContactController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ContactRequest $request)
     {
-        //
+        $request->validated();
+
+        Contact::create($request->all());
+        return redirect()->route('contacts.index')->with('success', 'You have successfully added a contact.');
     }
 
     /**
@@ -58,6 +64,7 @@ class ContactController extends Controller
     public function show(Contact $contact, $id)
     {
         $contact = $this->contactService->singleContact($id);
+        $companyList = $this->companyService->getCompaniesDropDown();
         return view('contact.view')->with('contact', $contact);
     }
 
@@ -67,9 +74,11 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function edit(Contact $contact)
+    public function edit(Contact $contact, $id)
     {
-        //
+        $contact = $this->contactService->singleContact($id);
+        $companyList = $this->companyService->getCompaniesDropDown();
+        return view('contact.edit')->with('contact', $contact)->with('companies', $companyList);
     }
 
     /**
@@ -79,9 +88,14 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Contact $contact)
+    public function update(ContactRequest $request, Contact $contact, $id)
     {
-        //
+        $request->validated();
+        $contact = $this->contactService->singleContact($id);
+
+        $contact->update($request->all());
+        return redirect()->route('contacts.view', $contact->id)->with('success', 'You have successfully updated this contact.');
+
     }
 
     /**
@@ -90,8 +104,10 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contact $contact)
+    public function destroy(Contact $contact, $id)
     {
-        //
+        $contact = $this->contactService->singleContact($id);
+        $contact->delete();
+        return back()->with('success', 'Contact have been deleted successfully');
     }
 }

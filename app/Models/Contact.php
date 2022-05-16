@@ -11,7 +11,7 @@ class Contact extends Model
     use HasFactory;
 
     protected $table= 'contacts';
-    protected $guarded = ['company_id', 'id'];
+    protected $fillable = ['first_name', 'last_name', 'email', 'phone', 'address', 'company_id'];
 
     public function company()
     {
@@ -20,7 +20,7 @@ class Contact extends Model
 
     public function getAllContacts()
     {
-        return self::orderBy('first_name', 'asc')->with('company')->where(function($query){
+        return self::orderBy('created_at', 'desc')->with('company')->where(function($query){
             if($companyId = request('company_id')){
                 $query->where('company_id', $companyId);
             }
@@ -29,6 +29,6 @@ class Contact extends Model
 
     public function singleContact($id)
     {
-        return self::whereId($id)->firstOrFail();
+        return self::findOrFail($id);
     }
 }
