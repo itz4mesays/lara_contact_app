@@ -24,7 +24,7 @@
             <th scope="row">{{ $index + $contacts->firstItem() }}</th>
             <td>{{ $contact->first_name }}</td>
             <td>{{ $contact->last_name }}</td>
-            <td>{{ $contact->phone }}</td>
+            <td>{{ $contact->email }}</td>
             <td>{{ $contact->company->name }}</td>
             <td width="150">
               <a href="{{ route('contacts.view', $contact->id) }}" class="btn btn-sm btn-circle btn-outline-info" title="Show"><i class="fa fa-eye"></i></a>

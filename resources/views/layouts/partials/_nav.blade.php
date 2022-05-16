@@ -14,15 +14,22 @@
           <li class="nav-item active"><a href="{{ route('contacts.index') }}" class="nav-link">Contacts</a></li>
         </ul>
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item mr-2"><a href="#" class="btn btn-outline-secondary">Login</a></li>
-          <li class="nav-item"><a href="#" class="btn btn-outline-primary">Register</a></li>
+          <li class="nav-item mr-2"><a href="{{ route('login') }}" class="btn btn-outline-secondary">Login</a></li>
+          <li class="nav-item"><a href="{{ route('register') }}" class="btn btn-outline-primary">Register</a></li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               John Doe
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="profile.html">Settings</a>
-              <a class="dropdown-item" href="#">Logout</a>
+              <a class="dropdown-item" href="{{ route('logout') }}"
+              onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();">>Logout</a>
+
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none" style="display:none">
+                @method('DELETE')
+                @csrf
+              </form>
             </div>
           </li>
         </ul>
