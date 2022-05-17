@@ -15,6 +15,7 @@ class ContactController extends Controller
     public function __construct(Contact $contact, Company $company)
     {
         $this->middleware('auth');
+
         $this->contactService = $contact;
         $this->companyService = $company;
     }
@@ -62,11 +63,11 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function show(Contact $contact, $id)
+    public function show(Contact $contact)
     {
-        $contact = $this->contactService->singleContact($id);
+        // $contact = $this->contactService->singleContact($id);
         $companyList = $this->companyService->getCompaniesDropDown();
-        return view('contact.view')->with('contact', $contact);
+        return view('contact.view')->with('contact', $contact)->with('companies', $companyList);
     }
 
     /**
@@ -74,10 +75,10 @@ class ContactController extends Controller
      *
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
+     * Route Model Binding (Contact $id)
      */
-    public function edit(Contact $contact, $id)
+    public function edit(Contact $contact)
     {
-        $contact = $this->contactService->singleContact($id);
         $companyList = $this->companyService->getCompaniesDropDown();
         return view('contact.edit')->with('contact', $contact)->with('companies', $companyList);
     }
@@ -89,13 +90,13 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(ContactRequest $request, Contact $contact, $id)
+    public function update(ContactRequest $request,Contact $contact)
     {
-        $request->validated();
-        $contact = $this->contactService->singleContact($id);
 
+        $request->validated();
+        
         $contact->update($request->all());
-        return redirect()->route('contacts.view', $contact->id)->with('success', 'You have successfully updated this contact.');
+        return redirect()->route('contacts.show', $contact->id)->with('success', 'You have successfully updated this contact.');
 
     }
 
@@ -105,9 +106,8 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contact $contact, $id)
+    public function destroy(Contact $contact)
     {
-        $contact = $this->contactService->singleContact($id);
         $contact->delete();
         return back()->with('success', 'Contact have been deleted successfully');
     }

@@ -10,10 +10,15 @@ class FilterScope implements Scope
 {
     public function apply(Builder $builder, Model $model)
     {
-        if($companyId = request('company_id')){
-            $builder->where('company_id', $companyId);
+        if(request('company_id')){
+            if($companyId = request('company_id')){
+                $builder->where('company_id', $companyId);
+            }
+    
+            return $builder;
         }
 
-        return $builder;
+        
+        
     }
 }

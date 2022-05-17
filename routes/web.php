@@ -17,15 +17,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
-Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
-Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
-Route::get('/contacts/{id}', [ContactController::class, 'show'])->name('contacts.view');
-Route::get('/contacts/{id}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
-Route::put('/contacts/{id}', [ContactController::class, 'update'])->name('contacts.update');
-Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->name('contacts.delete');
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+// Route::put('/contacts/{contact}', [ContactController::class, 'update'])->name('contacts.update');
+// Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+// Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
+// Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
+// Route::get('/contacts/{contact}', [ContactController::class, 'show'])->name('contacts.view');
+// Route::get('/contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
+// Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.delete');
+
+Route::resource('/contacts', ContactController::class);
 
 Auth::routes();
 
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

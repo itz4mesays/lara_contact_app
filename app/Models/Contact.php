@@ -15,11 +15,11 @@ class Contact extends Model
     protected $table= 'contacts';
     protected $fillable = ['first_name', 'last_name', 'email', 'phone', 'address', 'company_id'];
 
-
     public static function boot()
     {
         parent::boot();
-        static::addGlobalScope(new FilterScope);
+
+        // static::addGlobalScope(new FilterScope);
         static::addGlobalScope(new SearchScope);
 
         // self::creating(function($model){

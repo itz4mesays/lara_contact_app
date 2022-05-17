@@ -48,8 +48,15 @@
       <div class="form-group row mb-0">
         <div class="col-md-9 offset-md-3">
             <a href="{{ route('contacts.edit', $contact->id) }}" class="btn btn-info">Edit</a>
-            <a href="{{ route('contacts.delete', $contact->id) }}" class="btn btn-outline-danger">Delete</a>
+            <a href="{{ route('contacts.destroy', $contact->id) }}" class="btn btn-outline-danger"
+              onclick="event.preventDefault();
+                document.getElementById('delete-form').submit();">Delete</a>
             <a href="{{ route('contacts.index') }}" class="btn btn-outline-secondary">Cancel</a>
+
+            <form id="delete-form" action="{{ route('contacts.destroy', $contact->id) }}" method="POST" class="d-none" style="display:none">
+              @method('DELETE')
+              @csrf
+            </form>
         </div>
       </div>
     </div>
