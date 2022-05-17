@@ -44,11 +44,11 @@ class User extends Authenticatable
 
     public function contacts()
     {
-        return $this->hasMany(Contact::class, 'user_id', 'id');
+        return $this->hasMany(Contact::class);
     }
 
     public function companies()
     {
-        return $this->hasMany(Company::class, 'user_id', 'id');
+        return $this->hasMany(Company::class);
     }
 }

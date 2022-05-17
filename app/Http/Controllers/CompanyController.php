@@ -19,8 +19,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies= $this->companyService->getAllCompanies();
-        return view('contact.index', ['companies']);
+        $companies = $this->companyService->getAllCompanies();
+        return view('company.index')->with('companies', $companies);
     }
 
     /**

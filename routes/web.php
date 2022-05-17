@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 /*
@@ -27,7 +28,11 @@ Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])-
 // Route::get('/contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
 // Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.delete');
 
-Route::resource('/contacts', ContactController::class);
+// Route::resource('/contacts', ContactController::class); //Resource Route
+Route::resources(['/contacts' => ContactController::class, '/companies' => CompanyController::class]); //Resources Route
+
+//Partial Routes
+// Route::resource('/contacts', ContactController::class)->only(['index', 'update', 'create']); //Resource Route
 
 Auth::routes();
 

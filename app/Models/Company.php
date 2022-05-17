@@ -13,14 +13,9 @@ class Company extends Model
     protected $table = 'companies';
     protected $fillable = ['name', 'address', 'email', 'website'];
 
-    public function contacts()
+    public function getAllCompanies()
     {
-        return $this->hasMany(Contact::class, 'company_id', 'id');
-    }
-
-    public function getAllCompanies(): Collection
-    {
-        return self::orderBy('name', 'asc')->get();
+        return self::latest()->paginate(10);
     }
 
     public function getCompaniesDropDown()

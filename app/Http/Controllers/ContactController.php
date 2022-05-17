@@ -51,8 +51,6 @@ class ContactController extends Controller
      */
     public function store(ContactRequest $request)
     {
-        $request->validated();
-
         Contact::create($request->all());
         return redirect()->route('contacts.index')->with('success', 'You have successfully added a contact.');
     }
@@ -65,7 +63,6 @@ class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
-        // $contact = $this->contactService->singleContact($id);
         $companyList = $this->companyService->getCompaniesDropDown();
         return view('contact.view')->with('contact', $contact)->with('companies', $companyList);
     }
@@ -91,10 +88,7 @@ class ContactController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(ContactRequest $request,Contact $contact)
-    {
-
-        $request->validated();
-        
+    {        
         $contact->update($request->all());
         return redirect()->route('contacts.show', $contact->id)->with('success', 'You have successfully updated this contact.');
 

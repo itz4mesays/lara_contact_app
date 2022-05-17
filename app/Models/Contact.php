@@ -34,7 +34,7 @@ class Contact extends Model
 
     public function getAllContacts()
     {
-        return self::where('user_id', auth()->user()->id)->latest()->with('company')->paginate(10);
+        return self::where('user_id', auth()->id())->latest()->with('company')->paginate(10);
     }
 
     public function singleContact($id)
