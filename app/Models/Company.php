@@ -25,6 +25,6 @@ class Company extends Model
 
     public function getCompaniesDropDown()
     {
-        return self::orderBy('name', 'asc')->pluck('name', 'id')->prepend('All Companies', '');
+        return self::where('user_id', auth()->user()->id)->orderBy('name', 'asc')->pluck('name', 'id')->prepend('All Companies', '');
     }
 }

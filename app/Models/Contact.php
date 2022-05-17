@@ -21,16 +21,20 @@ class Contact extends Model
         parent::boot();
         static::addGlobalScope(new FilterScope);
         static::addGlobalScope(new SearchScope);
+
+        // self::creating(function($model){
+        //     return $model->user_id = auth()->user()->id;
+        // });
     }
 
     public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
     public function getAllContacts()
     {
-        return self::latest()->with('company')->paginate(10);
+        return self::where('user_id', auth()->user()->id)->latest()->with('company')->paginate(10);
     }
 
     public function singleContact($id)

@@ -37,10 +37,5 @@ class CompanySeeder extends Seeder
         
         // DB::table('companies')->insert($companies);
         Company::factory()->count(15)->create();
-        // Company::factory()->count(50)->create()->each(function($company){
-        //     $company->contacts()->saveMany(
-        //         Contact::factory()->count(50)->create()
-        //     );
-        // });
     }
 }

@@ -15,6 +15,6 @@ class ContactSeeder extends Seeder
      */
     public function run()
     {
-        Contact::factory()->count(50)->create(); //create method will return a collection and can be looped through
+        Contact::factory()->count(30)->create(); //create method will return a collection and can be looped through
     }
 }

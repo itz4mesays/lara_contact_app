@@ -14,6 +14,7 @@ class ContactController extends Controller
     
     public function __construct(Contact $contact, Company $company)
     {
+        $this->middleware('auth');
         $this->contactService = $contact;
         $this->companyService = $company;
     }

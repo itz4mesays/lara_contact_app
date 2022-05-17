@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             CompanySeeder::class,
-            ContactSeeder::class
+            ContactSeeder::class,
+            UserSeeder::class
         ]);
         // Contact::factory()->count(50)->create();
         // Company::factory()->count(40)->create();
