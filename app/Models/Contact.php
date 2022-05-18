@@ -19,7 +19,7 @@ class Contact extends Model
     {
         parent::boot();
 
-        // static::addGlobalScope(new FilterScope);
+        static::addGlobalScope(new FilterScope);
         static::addGlobalScope(new SearchScope);
 
         // self::creating(function($model){
@@ -29,12 +29,23 @@ class Contact extends Model
 
     public function company()
     {
-        return $this->belongsTo(Company::class, 'company_id', 'id');
+        return $this->belongsTo(Company::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function getAllContacts()
     {
-        return self::where('user_id', auth()->id())->latest()->with('company')->paginate(10);
+        $users = auth()->user();
+        return $users->contacts()->latest()->paginate(10);
+        // return request()->user()->where(function())->with(['contacts'])->paginate(10);
+        
+        // return self::where(function($query){
+        //     $query->where('contacts.user_id', auth()->id());
+        // })->latest()->with('company')->paginate(10);
     }
 
     public function singleContact($id)

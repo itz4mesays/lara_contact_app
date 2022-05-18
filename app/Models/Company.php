@@ -18,8 +18,18 @@ class Company extends Model
         return self::latest()->paginate(10);
     }
 
+    public function contacts()
+    {
+        return $this->hasMany(Contact::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function getCompaniesDropDown()
     {
-        return self::where('user_id', auth()->user()->id)->orderBy('name', 'asc')->pluck('name', 'id')->prepend('All Companies', '');
+        return self::orderBy('name', 'asc')->pluck('name', 'id')->prepend('All Companies', '');
     }
 }

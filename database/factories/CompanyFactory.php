@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,8 +22,9 @@ class CompanyFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'address' => $this->faker->address(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'website' => $this->faker->url()
+            'email' => $this->faker->unique()->email(),
+            'website' => $this->faker->domainName(),
+            'user_id' => User::factory()
         ];
     }
 }

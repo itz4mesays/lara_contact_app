@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::table('contacts', function(Blueprint $table){
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
 
         Schema::table('companies', function(Blueprint $table){
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('companies');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

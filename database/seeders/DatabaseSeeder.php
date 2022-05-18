@@ -18,10 +18,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            UserSeeder::class,
             CompanySeeder::class,
-            ContactSeeder::class,
-            UserSeeder::class
+            ContactSeeder::class
         ]);
+        
         // Contact::factory()->count(50)->create();
         // Company::factory()->count(40)->create();
     }
