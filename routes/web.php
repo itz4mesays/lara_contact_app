@@ -3,6 +3,8 @@
 use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SettingController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,4 +37,9 @@ Route::resources(['/contacts' => ContactController::class, '/companies' => Compa
 // Route::resource('/contacts', ContactController::class)->only(['index', 'update', 'create']); //Resource Route
 
 Auth::routes();
+
+Route::get('/settings/profile', [SettingController::class, 'index'])->name('settings.profile');
+Route::put('/settings/profile', [SettingController::class, 'edit'])->name('settings.edit');
+
+// Route::resource('/settings', SettingController::class)->only(['index', 'edit']);
 
