@@ -14,21 +14,27 @@ class ImageHandler {
      */
     public function __construct($imageData)
     {
-        $this->imageHandler = $imageData;    
+        $this->imageHandler = $imageData;
     }
   
     /**
      * Handles Profile Upload Image
      *
-     * @return string
+     * @return array
      */
-    public function uploadImage(): string
+    public function uploadImage(): array
     {
         $result = $this->imageHandler;
-        $data['fileName'] = $this->generateFileName($result);
-        $path = $result->file('profile_picture')->storeAs($this->imagePath(), $data['fileName']);
         
-        return empty($path) ? null : $data['fileName'];
+        $profileInfo =$result->validated();
+        
+        if($result->hasFile('profile_picture')){
+            $data['fileName'] = $this->generateFileName($result);
+            $path = $result->file('profile_picture')->storeAs($this->imagePath(), $data['fileName']);
+            $profileInfo['profile_picture'] = empty($path) ? null : $data['fileName'];
+        };
+
+        return $profileInfo;
     }
     
     /**

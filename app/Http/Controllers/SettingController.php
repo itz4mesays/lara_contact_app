@@ -20,16 +20,10 @@ class SettingController extends Controller
 
     public function edit(ProfileUpdateRequest $request)
     {
-        $profileData = $request->validated();
-        $req = $request->user();
-
-        if($request->hasFile('profile_picture')){
-            $imageHandler = new ImageHandler($request);
-            $result = $imageHandler->uploadImage(); //returns fileName empty or not
-            $profileData['profile_picture'] = $result;
-        }
+        $imageHandler = new ImageHandler($request);
+        $profileData = $imageHandler->uploadImage();
         
-        $req->update($profileData);
+        $request->user()->update($profileData);
 
         return back()->with('success','Profile updated successfully');
     }
