@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use PhpParser\ErrorHandler\Collecting;
 
 class User extends Authenticatable
 {
@@ -57,7 +59,7 @@ class User extends Authenticatable
         return $this->hasMany(Company::class);
     }
 
-    public function fullName()
+    public function fullName(): string
     {
         return $this->first_name . " ". $this->last_name;
     }

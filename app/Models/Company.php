@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Scopes\FilterSearchScope;
+use App\Scopes\SearchScope;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,9 +15,12 @@ class Company extends Model
     protected $table = 'companies';
     protected $fillable = ['name', 'address', 'email', 'website'];
 
+    public $searchColumns = ['name', 'email', 'website', 'address'];
+
+
     public function getAllCompanies()
     {
-        return self::latest()->paginate(10);
+        return auth()->user()->companies()->withCount('contacts')->latest()->paginate(10);
     }
 
     public function contacts()
@@ -30,6 +35,13 @@ class Company extends Model
 
     public function getCompaniesDropDown()
     {
-        return self::orderBy('name', 'asc')->pluck('name', 'id')->prepend('All Companies', '');
+        return auth()->user()->companies()->orderBy('name', 'asc')->pluck('name', 'id')->prepend('All Companies', '');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new SearchScope);
     }
 }

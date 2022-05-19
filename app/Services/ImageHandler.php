@@ -19,9 +19,8 @@ class ImageHandler {
         $result = $this->imageHandler; //get the instance of the uploaded file
         $data['fileName'] = $this->generateFileName($result);
         $uploadPath = 'public/upload';  
-        $path = $result->file('profile_picture')->storeAs($uploadPath, $data['fileName']); //returns string(31) "public/upload/filename.ext"
+        $path = $result->file('profile_picture')->storeAs($uploadPath, $data['fileName']);
         
-        //check if path is empty or not
         if(empty($path)){
             $fileName = null;
         }else{

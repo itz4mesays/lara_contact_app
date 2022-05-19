@@ -1,17 +1,25 @@
-document.getElementById('company_id').addEventListener('change', function() {
-    let companyId = this.value || this.options[this.selectedIndex].value
-    window.location.href = window.location.href.split('?')[0] + '?company_id=' + companyId
-})
+let filterComp = document.getElementById('company_id')
 
-document.getElementById('btn-clear').addEventListener('click', function() {
-    let input = document.getElementById('search'),
-        select = document.getElementById('company_id')
+if(filterComp){
+    filterComp.addEventListener('change', function() {
+        let companyId = this.value || this.options[this.selectedIndex].value
+        window.location.href = window.location.href.split('?')[0] + '?company_id=' + companyId
+    })
+}
 
-        input.value = ""
-        select.selectedIndex = 0
+let btnClear = document.getElementById('btn-clear')
 
-       window.location.href = window.location.href.split('?')[0]
-})
+if(btnClear){
+    btnClear.addEventListener('click', function() {
+        let input = document.getElementById('search'),
+            select = document.getElementById('company_id')
+    
+        if (input) input.value = "";
+        if (select) select.selectedIndex = 0;
+    
+        window.location.href = window.location.href.split('?')[0]
+    })
+}
 
 const toggleClearBtn = () => {
     //the patten will match  ?company_id=1&search
@@ -19,6 +27,7 @@ const toggleClearBtn = () => {
         pattern = /[?&]search=/,
         button = document.getElementById('btn-clear')
 
+    if(button === undefined) return
     if(pattern.test(query)){
         button.style.display = "block"
     }else{

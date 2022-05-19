@@ -8,30 +8,34 @@ use Illuminate\Database\Eloquent\Scope;
 
 class SearchScope implements Scope
 {
-    protected $searchableColumns = ['first_name', 'last_name', 'email', 'company.name'];
+    // protected $searchableColumns = ['first_name', 'last_name', 'email', 'company.name'];
+    protected $searchableColumns = [];
 
     public function apply(Builder $builder, Model $model)
     {
-        if($search = request()->query('search')){
-            // $checkCompany = null;
-            foreach ($this->searchableColumns as $column) {
-                $checkCompany = explode('.', $column);
+        if ($search = request()->query('search')) 
+        {
+            $columns = property_exists($model, 'searchColumns') ? $model->searchColumns : $this->searchColumns;
 
-                if(count($checkCompany) == 2){
-                    list($relation, $col) = $checkCompany; //assign variable as if they were arrays
+            foreach ($columns as $index => $column) 
+            {
+                $arr = explode(".", $column);
+                $method = $index === 0 ? "where" : "orWhere";
 
-                    $builder->orWhereHas($relation, function($query) use ($search, $col){
-                        $query->where($col, 'LIKE', "%$search%");
+                if (count($arr) === 2) 
+                {
+                    $method .= "Has";
+
+                    [$relationship, $col] = $arr;
+                   
+                    $builder->$method($relationship, function ($query) use ($search, $col) {
+                        $query->where($col, 'LIKE', "%{$search}%");
                     });
-                }else{
-                    $builder->orWhere($column, 'LIKE',"%{$search}%");
+                } 
+                else {
+                    $builder->$method($column, 'LIKE', "%{$search}%");
                 }
-     
             }
-
-            
         }
-
-        return $builder;
     }
 }

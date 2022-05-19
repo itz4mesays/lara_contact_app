@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\FilterScope;
+use App\Scopes\FilterSearchScope;
 use App\Scopes\SearchScope;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,21 +11,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
-    use HasFactory;
+    use HasFactory, FilterSearchScope;
 
     protected $table= 'contacts';
     protected $fillable = ['first_name', 'last_name', 'email', 'phone', 'address', 'company_id'];
+
+    public $searchColumns = ['first_name', 'last_name', 'email'];
+    public $filterColumns = ['company_id'];
 
     public static function boot()
     {
         parent::boot();
 
-        static::addGlobalScope(new FilterScope);
-        static::addGlobalScope(new SearchScope);
-
-        // self::creating(function($model){
-        //     return $model->user_id = auth()->user()->id;
-        // });
+        // static::addGlobalScope(new FilterScope);
+        // static::addGlobalScope(new SearchScope);
     }
 
     public function company()
@@ -40,15 +40,10 @@ class Contact extends Model
     public function getAllContacts()
     {
         $users = auth()->user();
-        return $users->contacts()->latest()->paginate(10);
-        // return request()->user()->where(function())->with(['contacts'])->paginate(10);
-        
-        // return self::where(function($query){
-        //     $query->where('contacts.user_id', auth()->id());
-        // })->latest()->with('company')->paginate(10);
+        return $users->contacts()->with('company')->latest()->paginate(10);
     }
 
-    public function singleContact($id)
+    public function singleContact($id): Collection
     {
         return self::findOrFail($id);
     }
@@ -58,17 +53,8 @@ class Contact extends Model
         return $query->orderBy('created_at', 'desc');
     }
 
-
-    // public function scopeFilterContact($query)
-    // {
-    //     if($companyId = request('company_id')){
-    //         $query->where('company_id', $companyId);
-    //     }
-
-    //     if($search = request('search')){
-    //         $query->where('first_name', 'LIKE',"%{$search}%");
-    //     }
-
-    //     return $query;
-    // }
+    public function fullName(): string
+    {
+        return $this->first_name. ' '. $this->last_name;
+    }
 }

@@ -15,7 +15,6 @@ class ContactController extends Controller
     public function __construct(Contact $contact, Company $company)
     {
         $this->middleware('auth');
-
         $this->contactService = $contact;
         $this->companyService = $company;
     }
@@ -51,7 +50,7 @@ class ContactController extends Controller
      */
     public function store(ContactRequest $request)
     {
-        Contact::create($request->all());
+        $request->user()->contacts()->create($request->all());
         return redirect()->route('contacts.index')->with('success', 'You have successfully added a contact.');
     }
 

@@ -7,6 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Contact;
 use App\Models\Company;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,13 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            UserSeeder::class,
-            CompanySeeder::class,
-            ContactSeeder::class
-        ]);
-        
-        // Contact::factory()->count(50)->create();
-        // Company::factory()->count(40)->create();
+        User::factory()->count(5)->create();
+        Company::factory()->hasContacts(5)->count(50)->create();
     }
 }

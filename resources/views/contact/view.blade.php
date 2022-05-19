@@ -2,7 +2,22 @@
 
 @section('title', 'Lara Contact App | Show')
 @section('content')
-<div class="row">
+
+
+<div class="card">
+  <div class="card-header card-title">
+    <div class="d-flex align-items-center">
+      <h2 class="mb-0">View Contact</h2>
+      <div class="ml-auto">
+        <a href="{{ route('contacts.create') }}" class="btn btn-success"><i class="fa fa-plus-circle"></i> Add New</a>
+      </div>
+    </div>
+  </div>
+<div class="card-body">
+
+  @include('layouts.partials._alert')
+
+  <div class="row">
     <div class="col-md-12">
       <div class="form-group row">
         <label for="first_name" class="col-md-3 col-form-label">First Name</label>
@@ -61,4 +76,7 @@
       </div>
     </div>
   </div>
+
+</div>
+</div>
 @endsection

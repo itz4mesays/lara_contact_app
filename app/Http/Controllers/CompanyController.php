@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
 
@@ -52,7 +53,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        //
+        return view('company.view')->with('company', $company);
     }
 
     /**
@@ -63,7 +64,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        //
+        return view('company.edit')->with('company', $company);
     }
 
     /**
@@ -73,9 +74,13 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(UpdateCompanyRequest $request, Company $company)
     {
-        //
+        $request->validated();
+
+        $company->update($request->only(['name', 'website', 'address']));
+
+        return back()->with('success', 'Company has been updated successfully');
     }
 
     /**
@@ -86,6 +91,7 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        //
+        $company->delete();
+        return back()->with('success', 'Company have been deleted successfully');
     }
 }

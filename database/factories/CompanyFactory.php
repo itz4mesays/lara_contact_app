@@ -20,11 +20,11 @@ class CompanyFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->company(),
             'address' => $this->faker->address(),
-            'email' => $this->faker->unique()->email(),
+            'email' => $this->faker->email(),
             'website' => $this->faker->domainName(),
-            'user_id' => User::factory()
+            'user_id' => User::pluck('id')->random()
         ];
     }
 }
