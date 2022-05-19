@@ -11,7 +11,14 @@ class ContactController extends Controller
 {
     protected $contactService;
     protected $companyService;
-    
+        
+    /**
+     * __construct
+     *
+     * @param  mixed $contact
+     * @param  mixed $company
+     * @return void
+     */
     public function __construct(Contact $contact, Company $company)
     {
         $this->middleware('auth');

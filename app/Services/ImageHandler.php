@@ -5,14 +5,22 @@ namespace App\Services;
 class ImageHandler {
 
     protected $imageHandler;
-    
+        
+    /**
+     * __construct
+     *
+     * @param  mixed $imageData
+     * @return void
+     */
     public function __construct($imageData)
     {
         $this->imageHandler = $imageData;    
     }
-
+  
     /**
      * Handles Profile Upload Image
+     *
+     * @return string
      */
     public function uploadImage(): string
     {
@@ -22,12 +30,24 @@ class ImageHandler {
         
         return empty($path) ? null : $data['fileName'];
     }
-
+    
+    /**
+     * Generate Filename for an image
+     *
+     * @param  mixed $data
+     * @return string
+     */
     protected function generateFileName($data): string
     {
         return auth()->user()->id.'_'.time().'.'.$data->file('profile_picture')->getClientOriginalExtension();
     }
 
+        
+    /**
+     * Image Path
+     *
+     * @return string
+     */
     public function imagePath(): string
     {
         return 'public/upload';
