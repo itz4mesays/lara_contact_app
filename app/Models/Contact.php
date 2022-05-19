@@ -29,7 +29,7 @@ class Contact extends Model
 
     public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class)->withoutGlobalScopes();
     }
 
     public function user()
@@ -57,4 +57,5 @@ class Contact extends Model
     {
         return $this->first_name. ' '. $this->last_name;
     }
+
 }

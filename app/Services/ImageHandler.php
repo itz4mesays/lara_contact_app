@@ -16,21 +16,20 @@ class ImageHandler {
      */
     public function uploadImage(): string
     {
-        $result = $this->imageHandler; //get the instance of the uploaded file
+        $result = $this->imageHandler;
         $data['fileName'] = $this->generateFileName($result);
-        $uploadPath = 'public/upload';  
-        $path = $result->file('profile_picture')->storeAs($uploadPath, $data['fileName']);
+        $path = $result->file('profile_picture')->storeAs($this->imagePath(), $data['fileName']);
         
-        if(empty($path)){
-            $fileName = null;
-        }else{
-            $fileName = $data['fileName'];
-        }
-        return $fileName;
+        return empty($path) ? null : $data['fileName'];
     }
 
     protected function generateFileName($data): string
     {
         return auth()->user()->id.'_'.time().'.'.$data->file('profile_picture')->getClientOriginalExtension();
+    }
+
+    public function imagePath(): string
+    {
+        return 'public/upload';
     }
 }

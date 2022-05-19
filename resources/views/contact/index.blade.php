@@ -60,7 +60,9 @@
       @endif
     </tbody>
   </table>
-    {!! $contacts->links() !!}
+    {{-- {!! $contacts->links() !!} --}}
+
+    {{ $contacts->appends(request()->only('company_id', 'search'))->links() }}
 
 </div>
 </div>
