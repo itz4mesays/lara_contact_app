@@ -3,7 +3,12 @@
 namespace App\Services;
 
 class ImageHandler {
-
+    
+    /**
+     * imageHandler
+     *
+     * @var mixed
+     */
     protected $imageHandler;
         
     /**
@@ -31,7 +36,7 @@ class ImageHandler {
         if($result->hasFile('profile_picture')){
             $data['fileName'] = $this->generateFileName($result);
             $path = $result->file('profile_picture')->storeAs($this->imagePath(), $data['fileName']);
-            $profileInfo['profile_picture'] = empty($path) ? null : $data['fileName'];
+            $profileInfo['profile_picture'] = !empty($path) ?? $data['fileName'];
         };
 
         return $profileInfo;

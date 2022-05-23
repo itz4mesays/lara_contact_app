@@ -20,7 +20,7 @@ class Company extends Model
 
     public function getAllCompanies()
     {
-        return auth()->user()->companies()->withCount('contacts')->latest()->paginate(10);
+        return auth()->user()->companies()->withCount('contacts')->latest()->paginate(10)->withQueryString();
     }
 
     public function contacts()

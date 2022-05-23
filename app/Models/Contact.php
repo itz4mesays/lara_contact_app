@@ -52,7 +52,7 @@ class Contact extends Model
     public function getAllContacts()
     {
         $users = auth()->user();
-        return $users->contacts()->with('company')->latest()->paginate(10);
+        return $users->contacts()->with('company')->latest()->paginate(10)->withQueryString();
     }
     
     /**
